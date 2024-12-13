@@ -1,0 +1,89 @@
+
+  .image-item {
+    display: flex;
+    margin: 10px 0;
+  }
+  .image-item__btn-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+  }
+  button {
+    height: 40px;
+  }
+  
+
+  /* Make it a marquee */
+.marquee {
+  margin: 0 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: right; /* Align text to the left for right-to-left flow */
+  direction: rtl; /* Set text direction to right-to-left */
+}
+
+.marquee span {
+  display: inline-block;
+  animation-name: marquee;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-direction: normal;
+
+}
+
+/* Make it move */
+@keyframes marquee {
+  0% {
+    transform: translateX(100%); /* Start from the right */
+  }
+
+  100% {
+    transform: translateX(-100%); /* Move towards the left */
+  }
+}
+
+
+
+/* */
+
+/* Make it a marquee */
+
+  /* Make it a marquee */
+  .marquee-urdu-anim {
+    width:40px;
+    margin: 0 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: right;
+  }
+
+.marquee-urdu {
+  width: 100%; /* Adjust width as needed */
+  margin: 0 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: left; /* Align text to the left for right-to-left flow */
+  direction: rtl; /* Set text direction to right-to-left */
+}
+
+.marquee-urdu span {
+  display: inline-block;
+  padding-left: 100%;
+  animation-name: marquee;
+  animation-duration: 100s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-direction: normal; /* Normal direction for right-to-left */
+}
+
+/* Make it move */
+@keyframes marquee-urdu {
+  0% {
+    transform: translateX(100%); /* Start from the right */
+  }
+
+  100% {
+    transform: translateX(-100%); /* Move towards the left */
+  }
+}

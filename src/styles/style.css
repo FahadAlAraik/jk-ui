@@ -1,0 +1,53 @@
+@import "~@fortawesome/fontawesome-free/css/all.css";
+
+.App {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin:auto;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Cairo'!important;
+}
+
+body {
+    background-color: #1A1A1D;
+}
+
+
+.translate-button {
+    background-color: #6A1E55;
+    border: #6A1E55;
+    font-weight: bold;
+    font-size: 18px;
+    color:#F5F5F5;
+}
+
+.upload-button {
+    background-color: #604CC3;
+    border: #604CC3;
+    font-size: 18px;
+    color:#F5F5F5;
+}
+
+.remove-button {
+    background-color: #FF6600;
+    border: #604CC3;
+    font-size: 18px;
+    color:#F5F5F5;
+}
+
+.translated-text {
+    color:#F5F5F5;
+    margin-top: 110px;
+}
+
+hr {
+    border-width: 5px;
+    width: 70%;
+    margin: auto;
+}
+
+.marquee-text {
+    font-size: 70px;
+}
