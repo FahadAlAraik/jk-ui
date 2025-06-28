@@ -3,6 +3,8 @@ import axios from "axios";
 import Marquee from "react-fast-marquee";
 import Spinner from 'react-bootstrap/Spinner';
 import Button from "react-bootstrap/esm/Button";
+import MarqueeControls from "./components/MarqueeControls";
+import MarqueeDisplay from "./components/MarqueeDisplay";
 import TextArModal from "./TextArModal";
 import "./styles.css";
 
@@ -27,16 +29,17 @@ function TextUpload({ onRestart }) {
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:5000/text", { text });
+      const response = await axios.post("http://localhost:5000/text", { text },{withCredentials:true});
       
       setTranslatedTexts(response.data);
       
       if (response.data.text_ar) {
-        setShowModal(true);
+        setShowModal(true); // Let modal open first
+      } else {
+        setMarqueeStarted(true); // No modal? Start marquee right away
       }
       
       console.log("Text translation successful:", response.data);
-      setMarqueeStarted(true);
       setShowUpload(false); // Hide upload UI after translation
     } catch (error) {
       console.error("Error translating text:", error);
@@ -60,7 +63,7 @@ function TextUpload({ onRestart }) {
     <div className="App">
       {showUpload ? (
         <>
-          <h1 className="text-arabic">ترجمة النصوص</h1>
+          <h1 className="text-arabic m-2">ترجمة النصوص</h1>
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -79,52 +82,13 @@ function TextUpload({ onRestart }) {
         <>
         <br/>
         <br/>
-          <div className="translated-text">
-            <p>
-              {marqueeStarted && (
-                <Marquee
-                  className="text-english m-4 marquee-text"
-                  play={!forceStop}
-                  //style={{ fontSize: textSize }}
-                  delay={delay}
-                  speed={marqueeSpeed}
-                >
-                  {translatedTexts.text_en}
-                </Marquee>
-              )}
-            </p>
-            <hr />
-            <br />
-            <p>
-                {marqueeStarted && (
-                  <Marquee
-                    className="text-urdu marquee-text"
-                    play={!forceStop}
-                    //style={{ fontSize:textSize,padding:'75px' }}
-                    delay={delay}
-                    speed={marqueeSpeed}
-                    direction="right"
-                  >
-                    {translatedTexts.text_ur}
-                  </Marquee>
-                )}
-              </p>
-            <br />
-            <hr />
-            <p>
-              {marqueeStarted && (
-                <Marquee
-                  className="text-english m-4 marquee-text"
-                  play={!forceStop}
-                  //style={{ fontSize: textSize}}
-                  delay={delay}
-                  speed={marqueeSpeed}
-                >
-                  {translatedTexts.text_bn}
-                </Marquee>
-              )}
-            </p>
-          </div>
+        <MarqueeDisplay
+            texts={translatedTexts}
+            speed={marqueeSpeed}
+            delay={delay}
+            textSize={textSize}
+            play={!forceStop && marqueeStarted}
+          />
 
           <h4
             className="m-2"
@@ -134,43 +98,25 @@ function TextUpload({ onRestart }) {
             {Math.round(parseFloat(translatedTexts.elapsed_time))} ثانية
           </h4>
 
-          {/* Slider to control Marquee speed */}
-          <div style={{ textAlign: "center", color: "#F5F5F5" }}>
-            <label>سرعة العرض: {marqueeSpeed}</label>
-            <input
-              type="range"
-              min="10"
-              max="1500"
-              value={marqueeSpeed}
-              onChange={(e) => setMarqueeSpeed(parseInt(e.target.value))}
-              style={{ width: "80%", margin: "10px 0" }}
-            />
-          </div>
-
-          <button
-            className="btn btn-dark mt-3 upload-button"
-            onClick={handleShowUpload}
-          >
-            إعادة
-          </button>
+          <MarqueeControls
+            speed={marqueeSpeed}
+            setSpeed={setMarqueeSpeed}
+            forceStop={forceStop}
+            setForceStop={setForceStop}
+            onReset={() => {
+              setShowUpload(true);
+              setText("");
+              onRestart();
+            }}
+          />
         </>
       )}
             <TextArModal
-        show={showModal}
-        onHide={handleCloseModal}
-        textAr={translatedTexts.text_ar}
-      />
+            show={showModal}
+            onHide={handleCloseModal}
+            textAr={translatedTexts.text_ar}
+          />
 
-      {/* Force Stop Button */}
-      {marqueeStarted && (
-        <button
-          className="btn btn-danger mt-3"
-          onClick={() => setForceStop(!forceStop)} // Toggle forceStop state
-        >
-          توقف
-        </button>
-      )}
-      <br />
     </div>
   );
 }

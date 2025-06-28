@@ -12,15 +12,15 @@ function TextArModal({ show, onHide, textAr }) {
       style={{ direction: 'rtl' }} // Set RTL direction
     >
       <Modal.Header>
-        <Modal.Title>الترجمة العربية</Modal.Title> {/* Arabic title */}
+        <Modal.Title>النص المستخرج</Modal.Title> {/* Arabic title */}
       </Modal.Header>
       <Modal.Body>
         <p>{textAr}</p>
       </Modal.Body>
       <Modal.Footer
         style={{
-          alignItems: 'flex-end',
-          justifyContent: 'flex-end',
+          alignItems: 'flex-start',
+          justifyContent: 'flex-start',
         }}
       >
         <Button variant="secondary" onClick={onHide}>

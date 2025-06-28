@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import Marquee from "react-fast-marquee";
+import MarqueeControls from "./components/MarqueeControls";
+import MarqueeDisplay from "./components/MarqueeDisplay";
+import ImageUploadArea from "./components/ImageUploadArea";
+import ImagePreviewList from "./components/ImagePreviewList";
 import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
 import TextArModal from "./TextArModal";
@@ -11,7 +15,7 @@ function ImgUpload({ onRestart }) {
   const [showUpload, setShowUpload] = useState(true);
   const [translatedTexts, setTranslatedTexts] = useState({
     text_en: "",
-    text_indo: "",
+    text_bn: "",
     text_ur: "",
     text_ar: "",
     elapsed_time: "",
@@ -56,10 +60,10 @@ function ImgUpload({ onRestart }) {
         formData.append(`image-${index + 1}`, image.file);
       });
 
-      const response = await axios.post("http://localhost:5000/upload", formData, {
+      const response = await axios.post("http://localhost:5000/upload",{withCredentials:true}, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-        },
+        }
       });
 
       setTranslatedTexts(response.data);
@@ -97,56 +101,28 @@ function ImgUpload({ onRestart }) {
     <div className="App">
       {showUpload ? (
         <>
-          <br />
-          <h1 className="text-arabic">مترجم خطبة الجمعة</h1>
-          <br />
-          <div
-            {...getRootProps()}
-            className="upload__image-wrapper"
-            style={
-              isDragActive
-                ? { border: "2px dashed red", borderRadius: "10px" }
-                : { border: "2px dashed gray", borderRadius: "10px" }
+          
+          <h1 className="text-arabic m-4">مترجم خطبة الجمعة</h1>
+          
+
+          <ImageUploadArea
+          onDrop={(acceptedFiles) => {
+            if (images.length + acceptedFiles.length > maxNumber) {
+              alert(`Maximum number of images (${maxNumber}) exceeded.`);
+              return;
             }
-          >
-            <input {...getInputProps()} />
-            <div
-              style={{
-                textAlign: "center",
-                color: "#F5F5F5",
-                padding: "20px",
-                cursor: "pointer",
-              }}
-            >
-              <i
-                className="fas fa-cloud-upload-alt"
-                style={{ fontSize: "50px", marginBottom: "10px" }}
-              ></i>
-              <p style={{ fontSize: "18px" }}>اسحب الصور او اضغط لرفع الصور</p>
-            </div>
-          </div>
-          <br />
-          <div className="image-list" style={{ color: "#F5F5F5" }}>
-            {images.map((image, index) => (
-              <div key={index} className="image-item">
-                <img src={image.preview} alt="" width="100" />
-                <div className="image-item__name m-2">
-                  <p>{image.file.name}</p>
-                </div>
-                <div className="image-item__btn-wrapper">
-                  <button
-                    className="btn btn-danger m-2"
-                    onClick={() => handleRemoveImage(index)}
-                  >
-                    حذف
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-          <br />
+            const newImages = acceptedFiles.map((file) => ({
+              file,
+              preview: URL.createObjectURL(file),
+            }));
+            setImages((prev) => [...prev, ...newImages]);
+          }}
+        />
+          
+          <ImagePreviewList className="m-4" images={images} onRemove={handleRemoveImage} />
+          
           <button
-            className="translate-button btn btn-dark"
+             className="m-4 translate-button btn btn-dark"
             disabled={images.length == 0? true:false}
             onClick={handleUpload}
           >
@@ -157,55 +133,14 @@ function ImgUpload({ onRestart }) {
         </>
       ) : (
         <>
-        <br/>
-        <br/>
-          <div className="translated-text">
-            <p>
-              {marqueeStarted && (
-                <Marquee
-                  className="text-english m-4"
-                  play={!forceStop}
-                  style={{ fontSize: textSize }}
-                  delay={delay}
-                  speed={marqueeSpeed}
-                >
-                  {translatedTexts.text_en}
-                </Marquee>
-              )}
-            </p>
-            <hr />
-            <br />
-            <p>
-                {marqueeStarted && (
-                  <Marquee
-                    className="text-urdu"
-                    play={!forceStop}
-                    style={{ fontSize:textSize,padding:'75px' }}
-                    delay={delay}
-                    speed={marqueeSpeed}
-                    direction="right"
-                  >
-                    {translatedTexts.text_ur}
-                  </Marquee>
-                )}
-              </p>
-            <br />
-            <hr />
-            <p>
-              {marqueeStarted && (
-                <Marquee
-                  className="text-english m-4"
-                  play={!forceStop}
-                  style={{ fontSize: textSize}}
-                  delay={delay}
-                  speed={marqueeSpeed}
-                >
-                  {translatedTexts.text_indo}
-                </Marquee>
-              )}
-            </p>
-          </div>
-
+        <MarqueeDisplay
+            className="m-5"
+            texts={translatedTexts}
+            speed={marqueeSpeed}
+            delay={delay}
+            textSize={textSize}
+            play={!forceStop && marqueeStarted}
+          />
           <h4
             className="m-2"
             style={{ textAlign: "center", color: "#F5F5F5" }}
@@ -215,24 +150,17 @@ function ImgUpload({ onRestart }) {
           </h4>
 
           {/* Slider to control Marquee speed */}
-          <div style={{ textAlign: "center", color: "#F5F5F5" }}>
-            <label>سرعة العرض: {marqueeSpeed}</label>
-            <input
-              type="range"
-              min="10"
-              max="1500"
-              value={marqueeSpeed}
-              onChange={(e) => setMarqueeSpeed(parseInt(e.target.value))}
-              style={{ width: "80%", margin: "10px 0" }}
-            />
-          </div>
-
-          <button
-            className="btn btn-dark mt-3 upload-button"
-            onClick={handleShowUpload}
-          >
-            إعادة
-          </button>
+          <MarqueeControls
+            speed={marqueeSpeed}
+            setSpeed={setMarqueeSpeed}
+            forceStop={forceStop}
+            setForceStop={setForceStop}
+            onReset={() => {
+              setShowUpload(true);
+              setImages([]);
+              onRestart();
+            }}
+          />
         </>
       )}
 
@@ -242,16 +170,6 @@ function ImgUpload({ onRestart }) {
         textAr={translatedTexts.text_ar}
       />
 
-      {/* Force Stop Button */}
-      {marqueeStarted && (
-        <button
-          className="btn btn-danger mt-3"
-          onClick={() => setForceStop(!forceStop)} // Toggle forceStop state
-        >
-          توقف
-        </button>
-      )}
-      <br />
     </div>
   );
 }
