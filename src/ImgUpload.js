@@ -60,7 +60,7 @@ function ImgUpload({ onRestart }) {
         formData.append(`image-${index + 1}`, image.file);
       });
 
-      const response = await axios.post("http://localhost:5000/upload",{withCredentials:true}, formData, {
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/upload`,{withCredentials:true}, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         }

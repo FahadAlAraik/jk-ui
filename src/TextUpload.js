@@ -29,7 +29,7 @@ function TextUpload({ onRestart }) {
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      const response = await axios.post("http://localhost:5000/text", { text },{withCredentials:true});
+      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/text`, { text },{withCredentials:true});
       
       setTranslatedTexts(response.data);
       

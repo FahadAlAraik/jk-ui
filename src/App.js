@@ -17,7 +17,7 @@ function App() {
 
     const checkAuth = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/validate", {
+        const res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/validate`, {
           withCredentials: true,
           signal: controller.signal,
         });

@@ -18,7 +18,7 @@ function Login({ onLoginSuccess }) {
 
     try {
       await axios.post(
-        "http://localhost:5000/login",
+        `${process.env.REACT_APP_API_BASE_URL}/login`,
         { username, password, captchaToken },
         { withCredentials: true }
       );
