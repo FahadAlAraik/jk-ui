@@ -60,10 +60,10 @@ function TextUpload({ onRestart }) {
   };
 
   return (
-    <div className="App">
+    <div className="App" style={{marginTop:"75px"}}>
       {showUpload ? (
         <>
-          <h1 className="text-arabic m-2">ترجمة النصوص</h1>
+          <h1 className="m-2" style={{color:"var(--Gray-1)"}}>ترجمة النصوص</h1>
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -76,7 +76,7 @@ function TextUpload({ onRestart }) {
             ترجم النص
           </button>
           <br />
-          {loading && <Spinner animation="grow" style={{color:"#F5F5F5"}} />}
+          {loading && <Spinner animation="grow" style={{color:"var(--Black)"}} />}
         </>
       ) : (
         <>
@@ -92,7 +92,7 @@ function TextUpload({ onRestart }) {
 
           <h4
             className="m-2"
-            style={{ textAlign: "center", color: "#F5F5F5" }}
+            style={{ textAlign: "center", color: "var(--Black)" }}
           >
             الوقت المستغرق هو{" "}
             {Math.round(parseFloat(translatedTexts.elapsed_time))} ثانية
@@ -103,6 +103,7 @@ function TextUpload({ onRestart }) {
             setSpeed={setMarqueeSpeed}
             forceStop={forceStop}
             setForceStop={setForceStop}
+            disabled={false}
             onReset={() => {
               setShowUpload(true);
               setText("");

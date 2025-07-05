@@ -30,12 +30,12 @@ function Login({ onLoginSuccess }) {
 
   return (
     <Container
-      className="d-flex justify-content-center align-items-center"
-      style={{ minHeight: "100vh" }}
+      className="d-flex justify-content-center align-items-center text-marai"
+      
     >
       <Card style={{ width: "100%", maxWidth: "400px" }} className="p-4 shadow">
         <h3 className="text-center mb-4">تسجيل الدخول</h3>
-        {error && <Alert variant="danger">{error}</Alert>}
+        {error && <Alert variant="danger" dir="rtl">{error}</Alert>}
 
         <Form onSubmit={handleLogin}>
           <Form.Group controlId="username" className="mb-3">
@@ -65,7 +65,7 @@ function Login({ onLoginSuccess }) {
             />
           </div>
 
-          <Button variant="primary" type="submit" className="w-100">
+          <Button variant="success" type="submit" className="w-100">
             دخول
           </Button>
         </Form>

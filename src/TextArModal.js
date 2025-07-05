@@ -12,7 +12,7 @@ function TextArModal({ show, onHide, textAr }) {
       style={{ direction: 'rtl' }} // Set RTL direction
     >
       <Modal.Header>
-        <Modal.Title>النص المستخرج</Modal.Title> {/* Arabic title */}
+        <Modal.Title>الخطبة بالعربي</Modal.Title> {/* Arabic title */}
       </Modal.Header>
       <Modal.Body>
         <p>{textAr}</p>

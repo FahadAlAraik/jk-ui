@@ -60,11 +60,16 @@ function ImgUpload({ onRestart }) {
         formData.append(`image-${index + 1}`, image.file);
       });
 
-      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/upload`,{withCredentials:true}, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      const response = await await axios.post(
+        `${process.env.REACT_APP_API_BASE_URL}/upload`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true, // <-- correctly placed
         }
-      });
+      );
 
       setTranslatedTexts(response.data);
       setShowUpload(false);
@@ -98,11 +103,11 @@ function ImgUpload({ onRestart }) {
   });
 
   return (
-    <div className="App">
+    <div className="App" style={{marginTop:"75px"}}>
       {showUpload ? (
         <>
           
-          <h1 className="text-arabic m-4">مترجم خطبة الجمعة</h1>
+          <h1 className="text-marai m-4" style={{color:"var(--Gray-1)"}}>مترجم خطبة الجمعة</h1>
           
 
           <ImageUploadArea
@@ -129,7 +134,7 @@ function ImgUpload({ onRestart }) {
             ترجم الخطبة
           </button>
           <br />
-          {loading && <Spinner animation="grow" style={{color:"#F5F5F5"}} />}
+          {loading && <Spinner animation="grow" style={{color:"var(--Black)"}} />}
         </>
       ) : (
         <>
@@ -143,7 +148,7 @@ function ImgUpload({ onRestart }) {
           />
           <h4
             className="m-2"
-            style={{ textAlign: "center", color: "#F5F5F5" }}
+            style={{ textAlign: "center", color: "var(--Black)" }}
           >
             الوقت المستغرق هو{" "}
             {Math.round(parseFloat(translatedTexts.elapsed_time))} ثانية
@@ -154,6 +159,7 @@ function ImgUpload({ onRestart }) {
             speed={marqueeSpeed}
             setSpeed={setMarqueeSpeed}
             forceStop={forceStop}
+            disabled={false}
             setForceStop={setForceStop}
             onReset={() => {
               setShowUpload(true);

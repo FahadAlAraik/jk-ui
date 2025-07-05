@@ -5,7 +5,10 @@ import { useDropzone } from "react-dropzone";
 function ImageUploadArea({ onDrop }) {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: "image/png, image/jpeg",
+    accept: {
+      'image/png': [],
+      'image/jpeg': [],
+    },
   });
 
   return (
@@ -21,7 +24,7 @@ function ImageUploadArea({ onDrop }) {
       <div
         style={{
           textAlign: "center",
-          color: "#F5F5F5",
+          color: "var(--Gray-1)",
           padding: "20px",
           cursor: "pointer",
         }}

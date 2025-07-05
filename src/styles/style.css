@@ -1,26 +1,76 @@
 @import "~@fortawesome/fontawesome-free/css/all.css";
 
+:root {
+    --Green-1: #1e6e48;
+    --Green-2: #5d8a59;
+    --Green-3: #92ad6c;
+    --Green-4: #d0db84;
+    --Gold-1: #ddc05f;
+    --Gold-2: #e2c879;
+    --Gold-3: #e8d192;
+    --Gold-4: #eddbab;
+    --Brown-1: #936728;
+    --Brown-2: #a27a41;
+    --Brown-3: #b29061;
+    --Brown-4: #c5aa84;
+    --Black: #191919;
+    --Gray-1: #4f4c4c;
+    --Gray-2: #928f8f;
+    --Gray-3: #eeeeee;
+}
+
+.offWhite {
+    background-color: #f7f7f7;
+}
+
+.content-container {
+    width: 95%;
+    border-radius: 25px;
+    margin:auto;
+    margin-top:25px;
+    padding: 55px;
+}
+
+.selection-buttons button {
+    background-color: var(--Green-2);
+    border-color: var(--Green-2);
+    color: #f7f7f7;
+    font-weight: bold;
+}
+
+.selection-buttons button:hover {
+    background-color: var(--Green-3);
+    border-color: var(--Green-3);
+    color: #f7f7f7;
+}
+
 .App {
     display: flex;
     justify-content: center;
     flex-direction: column;
     margin:auto;
     align-items: center;
-    height: 100vh;
-    font-family: 'Cairo'!important;
+    height: 50vh;
+    font-family: 'almarai'!important;
+    color:var(--Black)
 }
 
 body {
-    background-color: #1A1A1D;
+    /* background-color: #1A1A1D; */
+    background-color: var(--Gray-3);
 }
 
-
 .translate-button {
-    background-color: #6A1E55;
-    border: #6A1E55;
+    background-color: var(--Green-1);
+    border: var(--Green-2);
     font-weight: bold;
     font-size: 18px;
     color:#F5F5F5;
+}
+
+.translate-button:hover {
+    background-color: var(--Black);
+    border: var(--Green-1);
 }
 
 .upload-button {
@@ -38,8 +88,8 @@ body {
 }
 
 .translated-text {
-    color:#F5F5F5;
-    margin-top: 110px;
+    color:var(--Black);
+    margin-top: 325px;
 }
 
 hr {
@@ -51,3 +101,22 @@ hr {
 .marquee-text {
     font-size: 70px;
 }
+
+.nav-link:hover {
+    color:var(--Gold-1)!important;
+    border-bottom: 2px var(--Gold-1) solid;
+}
+
+.social-link {
+    transition: color 0.3s ease;
+    color: #212529; /* Default dark text */
+  }
+  
+  .social-link.twitter:hover {
+    color: #1DA1F2; /* Twitter blue */
+  }
+  
+  .social-link.linkedin:hover {
+    color: #0077B5; /* LinkedIn blue */
+  }
+  
